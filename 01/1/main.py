@@ -15,7 +15,7 @@ def	main():
 	dial: int = 50
 	password: int = 0
 
-	with open("./input", "r") as file:
+	with open("./input.txt", "r") as file:
 		for line in file:
 			if line[0] == 'L':
 				dial = rotate_dial(int(line[1:]), dial, -1)
