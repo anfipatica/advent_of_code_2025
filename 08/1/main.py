@@ -9,36 +9,15 @@ class	Box:
 		return "%d:%d:%d -> %d" %(self.x, self.y, self.z, self.circuit)
 
 
+def	get_circuit(box: Box) -> int:
+	return box.circuit
+
+
 def	euclidean_distance(box1: Box, box2: Box) -> int:
 	return ((box1.x - box2.x) * (box1.x - box2.x) +
 			(box1.y - box2.y) * (box1.y - box2.y) +
 			(box1.z - box2.z) * (box1.z - box2.z))
 
-def	choose_conection(box_list: list[Box]) -> tuple[int, int]:
-	if not hasattr(choose_conection, "last_distance"):
-		choose_conection.last_distance = 0
-	
-	smallest_distance:	int = None
-	distance:			int
-	box1:			int
-	box2:			int
-
-	for i1 in range(0, len(box_list)):
-		for i2 in range(0, len(box_list)):
-			distance = euclidean_distance(box_list[i1], box_list[i2])
-			if not smallest_distance or smallest_distance > distance:
-				if box_list[i1] is box_list[i2]:
-					continue
-				if distance < choose_conection.last_distance:
-					continue
-				if distance == choose_conection.last_distance and box_list[i1].circuit == box_list[i2].circuit:
-					continue
-				smallest_distance = distance
-				box1 = i1
-				box2 = i2
-
-	choose_conection.last_distance = smallest_distance
-	return box1, box2
 
 def	calculate_length(cirtuit_max: int, box_list: list[Box]):
 	n_boxes: int
@@ -80,8 +59,31 @@ def	create_or_add_circuit(circuit: int, box_list: list[Box], b1: int, b2: int) -
 	return circuit, box_list
 
 
-def	get_circuit(box: Box) -> int:
-	return box.circuit
+def	choose_conection(box_list: list[Box]) -> tuple[int, int]:
+	if not hasattr(choose_conection, "last_distance"):
+		choose_conection.last_distance = 0
+	
+	smallest_distance:	int = None
+	distance:			int
+	box1:			int
+	box2:			int
+
+	for i1 in range(0, len(box_list)):
+		for i2 in range(0, len(box_list)):
+			distance = euclidean_distance(box_list[i1], box_list[i2])
+			if not smallest_distance or smallest_distance > distance:
+				if box_list[i1] is box_list[i2]:
+					continue
+				if distance < choose_conection.last_distance:
+					continue
+				if distance == choose_conection.last_distance and box_list[i1].circuit == box_list[i2].circuit:
+					continue
+				smallest_distance = distance
+				box1 = i1
+				box2 = i2
+
+	choose_conection.last_distance = smallest_distance
+	return box1, box2
 
 
 def	connect_junction_boxes(box_list: list[Box]):
@@ -113,8 +115,6 @@ def	main():
 			index += 1
 	
 	connect_junction_boxes(box_list)
-
-# 	6080 TOO LOW
 
 if __name__ == "__main__":
 	main()
